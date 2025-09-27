@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wisecow
+  namespace: wisecow
+  labels:
+    app: wisecow
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wisecow
+  template:
+    metadata:
+      labels:
+        app: wisecow
+    spec:
+      containers:
+      - name: wisecow
+        image: ghcr.io/uday1359/wisecow:latest
+          # imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4499
+          name: http
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 4499
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4499
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          timeoutSeconds: 3
