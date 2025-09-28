@@ -1,0 +1,16 @@
+# simple-policy.yaml
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: simple-file-protection
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  action: Block
+  file:
+    matchPaths:
+    - path: /etc/passwd
+  severity: 5
+  message: "Block access to /etc/passwd"

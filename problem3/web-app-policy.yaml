@@ -1,0 +1,33 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: zero-trust-web-app
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: web-app
+  action: Allow
+  process:
+    matchPaths:
+    - path: /usr/bin/node
+    - path: /usr/bin/npm
+    - path: /usr/bin/yarn
+  file:
+    matchPaths:
+    - path: /app/*
+      readOnly: false
+    - path: /app/package.json
+      readOnly: true
+    - path: /app/node_modules/*
+      readOnly: true
+    - path: /tmp/*
+      readOnly: false
+    - path: /etc/passwd
+      readOnly: true
+  network:
+    matchProtocols:
+    - protocol: tcp
+      fromSource:
+      - path: /usr/bin/node
+  severity: 5 

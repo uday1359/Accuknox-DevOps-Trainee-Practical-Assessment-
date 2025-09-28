@@ -1,0 +1,28 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: zero-trust-database
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+  action: Allow
+  process:
+    matchPaths:
+    - path: /usr/lib/postgresql/*/bin/postgres
+    - path: /bin/bash
+  file:
+    matchPaths:
+    - path: /var/lib/postgresql/data/*
+      readOnly: false
+    - path: /etc/postgresql/*
+      readOnly: true
+    - path: /var/log/postgresql/*
+      readOnly: false
+  network:
+    matchProtocols:
+    - protocol: tcp
+      fromSource:
+      - path: /usr/lib/postgresql/*/bin/postgres
+  severity: 5 

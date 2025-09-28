@@ -1,0 +1,19 @@
+# network-policy.yaml
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: network-controls
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  action: Block
+  network:
+    matchProtocols:
+    - protocol: TCP
+      fromSource:
+      - path: /usr/sbin/nginx
+      # Note: Port restrictions are handled differently in current versions
+  severity: 5
+  message: "Network controls for nginx"

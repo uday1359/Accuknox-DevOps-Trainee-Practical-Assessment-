@@ -1,0 +1,36 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: zero-trust-workload-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  action: Allow
+  process:
+    matchPaths:
+    - path: /usr/sbin/nginx
+    - path: /bin/bash
+    - path: /bin/sh
+  file:
+    matchPaths:
+    - path: /etc/nginx/*
+      readOnly: true
+    - path: /var/log/nginx/*
+      readOnly: false
+    - path: /usr/share/nginx/html/*
+      readOnly: true
+    - path: /etc/passwd
+      readOnly: true
+    - path: /tmp/*
+      readOnly: false
+  network:
+    matchProtocols:
+    - protocol: tcp
+      fromSource:
+      - path: /usr/sbin/nginx
+  severity: 5
+  tags:
+    - "zero-trust"
+    - "production" 
