@@ -1,0 +1,14 @@
+import requests
+
+url = "http://localhost:30007"
+
+try:
+    response = requests.get(url, timeout=5)
+
+    if response.status_code == 200:
+        print("Application Status: UP")
+    else:
+        print("Application Status: DOWN")
+
+except:
+    print("Application Status: DOWN")
