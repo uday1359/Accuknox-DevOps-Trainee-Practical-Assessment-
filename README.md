@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Wisecow DevOps Project
 
 ## Overview
@@ -38,3 +39,6 @@ ci.yml
 ```bash
 chmod +x run.sh
 ./run.sh
+=======
+"# Accuknox-DevOps-Trainee-Practical-Assessment-" 
+>>>>>>> f8bdae52c6722578b6e1fb3a11af22c60ab24463
